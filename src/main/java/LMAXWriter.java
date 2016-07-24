@@ -1,6 +1,4 @@
-
 import com.lmax.disruptor.ExceptionHandler;
-import com.lmax.disruptor.RingBuffer;
 import com.lmax.disruptor.dsl.Disruptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,10 +7,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 /**
- * @author Anindya Chatterjee.
- */
-
-/**
+ * @author Sidath Weerasinghe and Udaka Manawadu
  * A class to control the disruptor engine. It initialize the disruptor,
  * submits messages to event producers and closes the disruptor.
  * */
@@ -42,9 +37,9 @@ public class LMAXWriter {
         if (ringBufferSize == 0) {
             ringBufferSize = 1024;
         }
-
         // ring buffer size always has to be the power of 2.
         // so if it is not, make it equal to the nearest integer.
+
         double power = Math.log(ringBufferSize) / Math.log(2);
         if (power % 1 != 0) {
             power = Math.ceil(power);
@@ -52,16 +47,19 @@ public class LMAXWriter {
             logger.info("New ring buffer size = " + ringBufferSize);
         }
 
-        // initialize our event handler.
-        WriteEventHandler handler = new WriteEventHandler();
+        // initialize two event handlers.
+        WriteEventHandler handler = new WriteEventHandler(0,2);
+        WriteEventHandler2 handler2 = new WriteEventHandler2(1,2);
 
         // initialize the disruptor
         disruptor = new Disruptor<WriteEvent>(factory, ringBufferSize, executor);
         disruptor.handleEventsWith(handler);
+        disruptor.handleEventsWith(handler2);
 
         // set our custom exception handler
         ExceptionHandler exceptionHandler = new WriteExceptionHandler();
         disruptor.handleExceptionsFor(handler).with(exceptionHandler);
+        disruptor.handleExceptionsFor(handler2).with(exceptionHandler);
 
         // start the disruptor and get the generated ring buffer instance
         disruptor.start();

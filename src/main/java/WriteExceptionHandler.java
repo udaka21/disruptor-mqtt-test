@@ -1,10 +1,9 @@
-
 import com.lmax.disruptor.ExceptionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author Anindya Chatterjee.
+ * @author Sidath Weerasinghe and Udaka Manawadu
  */
 public class WriteExceptionHandler implements ExceptionHandler {
 
