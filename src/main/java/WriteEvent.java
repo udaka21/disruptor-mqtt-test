@@ -1,6 +1,5 @@
-
 /**
- * @author Anindya Chatterjee.
+ * @author Sidath Weerasinghe and Udaka Manawadu
  */
 public class WriteEvent {
 

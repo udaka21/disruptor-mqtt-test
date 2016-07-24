@@ -1,8 +1,7 @@
-
 import com.lmax.disruptor.EventFactory;
 
 /**
- * @author Anindya Chatterjee.
+ * @author Sidath Weerasinghe and Udaka Manawadu
  */
 public class WriteEventFactory implements EventFactory<WriteEvent> {
 
